@@ -1,6 +1,12 @@
 import { applyPatch } from 'fast-json-patch/index.mjs';
 import { Socket, Channel } from "phoenix";
 
+// This file is copied from https://github.com/launchscout/phx-live-state
+// the original is MIT Licensed: 
+// https://github.com/launchscout/phx-live-state/blob/992349f8ef6f1339a1f84a732121816e6c552d02/package.json#L22
+
+// This file has been adjusted because the original imported `applyPatch` from a dependency
+// that did not work.
 
 // export type LiveStateConfig = {
 
