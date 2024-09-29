@@ -34,7 +34,7 @@
 			{#key el.edge.waypoints.length}
 				<MeshLineGeometry
 					points={[
-						new Vector3(el.edge.source_x * 0.01, -el.edge.source_y * 0.01, -10),
+						new Vector3(el.edge.source_x * 0.01, -el.edge.source_y * 0.01, -10 + i / 100),
 						...el.edge.waypoints.map((w) => new Vector3(w.x * 0.01, -w.y * 0.01, -10 + i / 100)),
 						new Vector3(el.edge.target_x * 0.01, -el.edge.target_y * 0.01, -10 + i / 100)
 					]}

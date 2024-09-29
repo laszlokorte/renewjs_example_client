@@ -1,11 +1,14 @@
 <script>
 	import LiveState from '../lib/livestate';
+	import WebGL from '../lib/webgl.svelte';
+	import Svg from '../lib/svg.svelte';
 
 	let server = $state('localhost:4000');
-	let documentId = $state('dc377afa-d93a-418d-a27f-be0c79b306a5');
+	let documentId = $state('b67111c3-a727-4cc9-b14d-702ab9534d09');
 	let connected = $state(false);
 	let doc = $state(null);
 	let live = $state(null);
+	let renderer = $state('svg');
 
 	function connectToDocument(server_url, document_id) {
 		if (live) {
@@ -34,50 +37,24 @@
 <article>
 	<header>
 		<h2>
-			<img src="/favicon.svg" width="28" height="28" align="top" /> Renew Web Svelte Client (SVG)
+			<img src={'./favicon.svg'} width="28" height="28" align="top" /> Renew Web Svelte Client (SVG)
 		</h2>
 
-		<p style="text-align: center;">
-			<a href="/threejs">WebGL Renderer</a>
-		</p>
+		<div style="text-align: center; display: flex; justify-content: center; justify-items: center;">
+			Renderer:
+			<label><input type="radio" bind:group={renderer} value="svg" /> SVG</label>
+			<label><input type="radio" bind:group={renderer} value="webgl" /> WebGL</label>
+		</div>
 	</header>
 
 	{#if connected}
 		{#if doc}
-			<svg viewBox="0 0 1000 1000">
-				{#each doc.elements.items as el}
-					{#if el.box && !el.hidden}
-						<rect
-							fill={el.style.background_color ?? 'pink'}
-							x={el.box.position_x}
-							y={el.box.position_y}
-							width={el.box.width}
-							height={el.box.height}
-						></rect>
-					{/if}
-					{#if el.text && !el.hidden}
-						<text
-							fill={el.text.style.text_color ?? 'pink'}
-							x={el.text.position_x}
-							y={el.text.position_y}
-						>
-							{#each el.text.body.split('\n') as line, li}
-								<tspan x={el.text.position_x} dy={14}>{line}</tspan>
-							{/each}
-						</text>
-					{/if}
-					{#if el.edge && !el.hidden}
-						<polyline
-							points="{el.edge.source_x} {el.edge.source_y} {el.edge.waypoints
-								.map((w) => `${w.x} ${w.y}`)
-								.join(' ')} {el.edge.target_x} {el.edge.target_y}"
-							stroke="black"
-							fill="none"
-							stroke-width="2"
-						/>
-					{/if}
-				{/each}
-			</svg>
+			{#if renderer == 'svg'}
+				<Svg {doc} />
+			{/if}
+			{#if renderer == 'webgl'}
+				<WebGL {doc} />
+			{/if}
 		{/if}
 		<button
 			style="position: absolute; top: 1em; left: 1em; z-index: 1000"
@@ -112,7 +89,7 @@
 		text-align: center;
 	}
 
-	input {
+	input[type='text'] {
 		padding: 1ex;
 		min-width: 20em;
 	}
@@ -136,11 +113,5 @@
 	header {
 		z-index: 100;
 		background: #fffa;
-	}
-
-	svg {
-		display: block;
-		width: 100%;
-		max-height: 100%;
 	}
 </style>
