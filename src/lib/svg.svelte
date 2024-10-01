@@ -6,7 +6,7 @@
 	{#each doc.elements.items as el}
 		{#if el.box && !el.hidden}
 			<rect
-				fill={el.style.background_color ?? 'pink'}
+				fill={el?.style?.background_color ?? 'black'}
 				x={el.box.position_x}
 				y={el.box.position_y}
 				width={el.box.width}
@@ -14,7 +14,11 @@
 			></rect>
 		{/if}
 		{#if el.text && !el.hidden}
-			<text fill={el.text.style.text_color ?? 'pink'} x={el.text.position_x} y={el.text.position_y}>
+			<text
+				fill={el.text?.style?.text_color ?? 'black'}
+				x={el.text.position_x}
+				y={el.text.position_y}
+			>
 				{#each el.text.body.split('\n') as line, li}
 					<tspan x={el.text.position_x} dy={14}>{line}</tspan>
 				{/each}

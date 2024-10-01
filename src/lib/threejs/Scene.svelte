@@ -22,21 +22,29 @@
 			position={[
 				(el.box.position_x + el.box.width / 2) * 0.01,
 				-(el.box.position_y + el.box.height / 2) * 0.01,
-				-10 + i / 100
+				-10 + el.z_index / 100
 			]}
 		>
 			<T.BoxGeometry args={[el.box.width * 0.01, el.box.height * 0.01, 0.05]} />
-			<T.MeshStandardMaterial color={el.style.background_color} />
+			<T.MeshStandardMaterial color={el?.style?.background_color} />
 		</T.Mesh>
 	{/if}
 	{#if el.edge && !el.hidden}
+		{@const source_z = el.edge.source_bond
+			? doc.elements.items.find((l) => l.id == el.edge.source_bond.layer_id).z_index
+			: el.z_index}
+		{@const target_z = el.edge.target_bond
+			? doc.elements.items.find((l) => l.id == el.edge.target_bond.layer_id).z_index
+			: el.z_index}
 		<T.Mesh>
 			{#key el.edge.waypoints.length}
 				<MeshLineGeometry
 					points={[
-						new Vector3(el.edge.source_x * 0.01, -el.edge.source_y * 0.01, -10 + i / 100),
-						...el.edge.waypoints.map((w) => new Vector3(w.x * 0.01, -w.y * 0.01, -10 + i / 100)),
-						new Vector3(el.edge.target_x * 0.01, -el.edge.target_y * 0.01, -10 + i / 100)
+						new Vector3(el.edge.source_x * 0.01, -el.edge.source_y * 0.01, -10 + source_z / 100),
+						...el.edge.waypoints.map(
+							(w) => new Vector3(w.x * 0.01, -w.y * 0.01, -10 + el.z_index / 100)
+						),
+						new Vector3(el.edge.target_x * 0.01, -el.edge.target_y * 0.01, -10 + target_z / 100)
 					]}
 				/>
 			{/key}
@@ -49,7 +57,7 @@
 			body={el.text.body}
 			x={el.text.position_x}
 			y={el.text.position_y}
-			color={el.text.style.text_color || 'black'}
+			color={el?.text?.style?.text_color || 'black'}
 		/>
 	{/if}
 {/each}
