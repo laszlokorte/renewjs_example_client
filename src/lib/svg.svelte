@@ -1,8 +1,14 @@
 <script>
-	const { doc } = $props();
+	const { doc, camx, camy, camz } = $props();
 </script>
 
-<svg viewBox="0 0 1000 1000">
+<svg
+	viewBox="{100 * camx - 700 * Math.exp(camz / 20)} 
+	{100 * camy - 700 * Math.exp(camz / 20)} 
+	{1400 * Math.exp(camz / 20)} 
+	{1400 * Math.exp(camz / 20)}"
+	preserveAspectRatio="xMidYMid meet"
+>
 	{#each doc.elements.items as el}
 		{#if el.box && !el.hidden}
 			<rect

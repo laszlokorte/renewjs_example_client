@@ -10,6 +10,10 @@
 	let live = $state(null);
 	let renderer = $state('svg');
 
+	let camx = $state(0);
+	let camy = $state(0);
+	let camz = $state(-1);
+
 	function connectToDocument(server_url, document_id) {
 		if (live) {
 			live.disconnect();
@@ -49,12 +53,28 @@
 
 	{#if connected}
 		{#if doc}
-			{#if renderer == 'svg'}
-				<Svg {doc} />
-			{/if}
-			{#if renderer == 'webgl'}
-				<WebGL {doc} />
-			{/if}
+			<div
+				class="interactive"
+				onpointerdown={(evt) => {
+					evt.currentTarget.setPointerCapture(evt.pointerId);
+				}}
+				onpointermove={(evt) => {
+					if (evt.buttons) {
+						camx -= (evt.movementX / 60) * Math.exp(camz / 100);
+						camy -= (evt.movementY / 60) * Math.exp(camz / 100);
+					}
+				}}
+				onwheel={(evt) => {
+					camz += evt.deltaY / 100;
+				}}
+			>
+				{#if renderer == 'svg'}
+					<Svg {doc} {camx} {camy} {camz} />
+				{/if}
+				{#if renderer == 'webgl'}
+					<WebGL {doc} {camx} {camy} {camz} />
+				{/if}
+			</div>
 		{/if}
 		<button
 			style="position: absolute; top: 1em; left: 1em; z-index: 1000"
@@ -113,5 +133,9 @@
 	header {
 		z-index: 100;
 		background: #fffa;
+	}
+
+	.interactive {
+		display: contents;
 	}
 </style>
