@@ -24,9 +24,10 @@
 				fill={el.text?.style?.text_color ?? 'black'}
 				x={el.text.position_x}
 				y={el.text.position_y}
+				font-size={el?.text?.style?.font_size || 12}
 			>
 				{#each el.text.body.split('\n') as line, li}
-					<tspan x={el.text.position_x} dy={14}>{line}</tspan>
+					<tspan x={el.text.position_x} dy={el?.text?.style?.font_size || 12}>{line}</tspan>
 				{/each}
 			</text>
 		{/if}

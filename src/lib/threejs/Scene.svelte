@@ -27,7 +27,7 @@
 			position={[
 				el.box.position_x + el.box.width / 2,
 				-el.box.position_y - el.box.height / 2,
-				-10 - el.z_index / 100
+				-5 + el.z_index / 100
 			]}
 		>
 			<T.BoxGeometry args={[el.box.width, el.box.height, 0.05]} />
@@ -45,21 +45,32 @@
 			{#key el.edge.waypoints.length}
 				<MeshLineGeometry
 					points={[
-						new Vector3(el.edge.source_x, -el.edge.source_y, -5 - source_z / 100),
-						...el.edge.waypoints.map((w) => new Vector3(w.x, -w.y, -5 - el.z_index / 100)),
-						new Vector3(el.edge.target_x, -el.edge.target_y, -5 - target_z / 100)
+						new Vector3(el.edge.source_x, -el.edge.source_y, -5 + source_z / 100),
+						...el.edge.waypoints.map((w) => new Vector3(w.x, -w.y, -5 + el.z_index / 100)),
+						new Vector3(el.edge.target_x, -el.edge.target_y, -5 + target_z / 100)
 					]}
 				/>
 			{/key}
-			<MeshLineMaterial width={0.01} color={'#000000'} attenuate={true} />
+			<MeshLineMaterial width={0.003} color={'#000000'} attenuate={true} />
 		</T.Mesh>
 	{/if}
 	{#if el.text && !el.hidden}
+		<T.Mesh
+			position={[
+				el.text.position_x + el.text.width / 2,
+				-el.text.position_y - el.text.height / 2,
+				-10 - el.z_index / 100
+			]}
+		>
+			<T.BoxGeometry args={[3, 3, 0.05]} />
+			<T.MeshStandardMaterial color={el?.text?.style?.text_color || 'black'} />
+		</T.Mesh>
 		<Text
-			{i}
 			body={el.text.body}
 			x={el.text.position_x}
 			y={-el.text.position_y}
+			z={-5 + el.z_index / 100}
+			size={el?.text?.style?.font_size || 12}
 			color={el?.text?.style?.text_color || 'black'}
 		/>
 	{/if}

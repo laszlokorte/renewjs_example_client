@@ -9,16 +9,16 @@
 	} from '@threlte/extras';
 	import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 	import Text3DGeo from './Text3DGeo.svelte';
-	let { body, x, y, color, i, ref = $bindable(), children } = $props();
+	let { body, x, y, color, z, size, ref = $bindable() } = $props();
 
 	var textGeometry = new TextGeometry(body);
 </script>
 
 {#key body}
-	<T.Mesh position={[x * 0.01, -y * 0.01, -9 + i / 500]} scale={[0.001, 0.001, 0.0005]}>
+	<T.Mesh position={[x, y, z]} scale={[(size / 12) * 0.1, (size / 12) * 0.1, 0.0001]}>
 		{#key body}
 			<Text3DGeo text={body} />
 		{/key}
-		<T.MeshBasicMaterial {color} toneMapped={false} metalness={0} roughness={1} />
+		<T.MeshStandardMaterial {color} metalness={0} roughness={1} />
 	</T.Mesh>
 {/key}
