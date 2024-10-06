@@ -4,6 +4,7 @@
 	import Svg from '../lib/svg.svelte';
 
 	let server = $state('localhost:4000');
+	let ssl = $state(false);
 	let documentId = $state('b67111c3-a727-4cc9-b14d-702ab9534d09');
 	let connected = $state(false);
 	let doc = $state(null);
@@ -14,14 +15,14 @@
 	let camy = $state(0);
 	let camz = $state(-1);
 
-	function connectToDocument(server_url, document_id) {
+	function connectToDocument(ssl, server_url, document_id) {
 		if (live) {
 			live.disconnect();
 			connected = false;
 		}
 
 		live = new LiveState({
-			url: `ws://${server}/redux`,
+			url: `ws${ssl?'s':''}://${server}/redux`,
 			topic: `redux_document:${document_id}`
 		});
 
@@ -41,7 +42,7 @@
 <article>
 	<header>
 		<h2>
-			<img src={'./favicon.svg'} width="28" height="28" align="top" /> Renew Web Svelte Client (SVG)
+			<img alt="Logo" src={'./favicon.svg'} width="28" height="28" align="top" /> Renew Web Svelte Client (SVG)
 		</h2>
 
 		<div style="text-align: center; display: flex; justify-content: center; justify-items: center;">
@@ -86,10 +87,10 @@
 	{:else}
 		<div style="display: flex; justify-content: center; align-items: end;">
 			<div>
-				<label style="display: block; text-align: left;">
-					Server:<br />
-					<input bind:value={server} type="text" placeholder="URL to Renew Web Editor Server" />
-				</label>
+				<div style="display: block; text-align: left;">
+					<label for="server">Server:</label> (<label><input type="checkbox" bind:checked={ssl} /> SSL</label>)<br />
+					<input id="server" bind:value={server} type="text" placeholder="URL to Renew Web Editor Server" />
+				</div>
 				<label style="display: block; text-align: left;">
 					Document Id:<br />
 					<input bind:value={documentId} type="text" placeholder="UUID of a Document" />
@@ -97,7 +98,7 @@
 			</div>
 			<button
 				onclick={(evt) => {
-					connectToDocument(server, documentId);
+					connectToDocument(ssl, server, documentId);
 				}}>connect</button
 			>
 		</div>
