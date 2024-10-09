@@ -23,7 +23,8 @@
 
 		live = new LiveState({
 			url: `ws${ssl ? 's' : ''}://${server}/redux`,
-			topic: `redux_document:${document_id}`
+			topic: `redux_document:${document_id}`,
+			socketOptions: { params: { token: 'DEBUG' } }
 		});
 
 		live.subscribe((serverState) => {
