@@ -22,12 +22,12 @@
 		}
 
 		live = new LiveState({
-			url: `ws${ssl?'s':''}://${server}/redux`,
+			url: `ws${ssl ? 's' : ''}://${server}/redux`,
 			topic: `redux_document:${document_id}`
 		});
 
 		live.subscribe((serverState) => {
-			doc = serverState.detail.state.document.data;
+			doc = serverState.detail.state.content;
 			connected = true;
 		});
 
@@ -42,7 +42,8 @@
 <article>
 	<header>
 		<h2>
-			<img alt="Logo" src={'./favicon.svg'} width="28" height="28" align="top" /> Renew Web Svelte Client (SVG)
+			<img alt="Logo" src={'./favicon.svg'} width="28" height="28" align="top" /> Renew Web Svelte Client
+			(SVG)
 		</h2>
 
 		<div style="text-align: center; display: flex; justify-content: center; justify-items: center;">
@@ -88,8 +89,15 @@
 		<div style="display: flex; justify-content: center; align-items: end;">
 			<div>
 				<div style="display: block; text-align: left;">
-					<label for="server">Server:</label> (<label><input type="checkbox" bind:checked={ssl} /> SSL</label>)<br />
-					<input id="server" bind:value={server} type="text" placeholder="URL to Renew Web Editor Server" />
+					<label for="server">Server:</label> (<label
+						><input type="checkbox" bind:checked={ssl} /> SSL</label
+					>)<br />
+					<input
+						id="server"
+						bind:value={server}
+						type="text"
+						placeholder="URL to Renew Web Editor Server"
+					/>
 				</div>
 				<label style="display: block; text-align: left;">
 					Document Id:<br />
