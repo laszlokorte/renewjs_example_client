@@ -9,7 +9,7 @@
 	{1400 * Math.exp(camz / 20)}"
 	preserveAspectRatio="xMidYMid meet"
 >
-	{#each doc.elements.items as el}
+	{#each doc.layers.items as el}
 		{#if el.box && !el.hidden}
 			<rect
 				fill={el?.style?.background_color ?? 'black'}

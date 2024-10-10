@@ -21,7 +21,7 @@
 		ref.updateProjectionMatrix();
 	}}
 />
-{#each doc.elements.items as el, i (el.id)}
+{#each doc.layers.items as el, i (el.id)}
 	{#if el.box && !el.hidden}
 		<T.Mesh
 			position={[
@@ -36,10 +36,10 @@
 	{/if}
 	{#if el.edge && !el.hidden}
 		{@const source_z = el.edge.source_bond
-			? doc.elements.items.find((l) => l.id == el.edge.source_bond.layer_id).z_index
+			? doc.layers.items.find((l) => l.id == el.edge.source_bond.layer_id).z_index
 			: el.z_index}
 		{@const target_z = el.edge.target_bond
-			? doc.elements.items.find((l) => l.id == el.edge.target_bond.layer_id).z_index
+			? doc.layers.items.find((l) => l.id == el.edge.target_bond.layer_id).z_index
 			: el.z_index}
 		<T.Mesh>
 			{#key el.edge.waypoints.length}

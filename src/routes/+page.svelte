@@ -3,9 +3,9 @@
 	import WebGL from '../lib/webgl.svelte';
 	import Svg from '../lib/svg.svelte';
 
-	let server = $state('localhost:4000');
-	let ssl = $state(false);
-	let documentId = $state('b67111c3-a727-4cc9-b14d-702ab9534d09');
+	let server = $state('renewcollab.laszlokorte.de/');
+	let ssl = $state(true);
+	let documentId = $state('a55e0dcc-a96e-4736-83bb-0a21ec2149ba');
 	let connected = $state(false);
 	let doc = $state(null);
 	let live = $state(null);
@@ -22,7 +22,7 @@
 		}
 
 		live = new LiveState({
-			url: `ws${ssl ? 's' : ''}://${server}/redux`,
+			url: `ws${ssl ? 's' : ''}://${server.replace(/^(http|ws)s?:\/\//, '')}/redux`,
 			topic: `redux_document:${document_id}`,
 			socketOptions: { params: { token: 'DEBUG' } }
 		});
