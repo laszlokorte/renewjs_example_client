@@ -28,7 +28,7 @@
 		});
 
 		live.subscribe((serverState) => {
-			doc = serverState.detail.state.content;
+			doc = serverState.detail.state;
 			connected = true;
 		});
 
